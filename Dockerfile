@@ -1,12 +1,6 @@
-ARG GOTAG=1.18-alpine
-FROM golang:${GOTAG} as builder
-ARG MAILHOG_VERSION=latest
-MAINTAINER CD2Team <codesign2@icloud.com>
+FROM golang:1.22-alpine as builder
 
-RUN set -x \
-  && buildDeps='git musl-dev gcc' \
-  && apk add --update $buildDeps \
-  && GOPATH=/tmp/gocode go install github.com/mailhog/MailHog@${MAILHOG_VERSION}
+RUN set -x && apk add --update git musl-dev gcc && GOPATH=/tmp/gocode go install github.com/mailhog/MailHog@latest
 
 FROM alpine:latest
 WORKDIR /bin
